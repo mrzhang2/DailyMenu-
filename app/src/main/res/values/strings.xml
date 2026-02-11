@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">每日菜单</string>
+    <string name="breakfast">早餐</string>
+    <string name="lunch">午餐</string>
+    <string name="dinner">晚餐</string>
+    <string name="today_menu">今日推荐</string>
+    <string name="weather_info">天气信息</string>
+    <string name="manual_weather">手动输入天气</string>
+    <string name="auto_weather">自动获取天气</string>
+    <string name="recipe_detail">菜谱详情</string>
+    <string name="ingredients">食材</string>
+    <string name="steps">制作步骤</string>
+    <string name="cooking_time">烹饪时间</string>
+    <string name="calories">热量</string>
+    <string name="history">历史记录</string>
+    <string name="favorites">收藏</string>
+    <string name="settings">设置</string>
+    <string name="refresh">刷新菜单</string>
+    <string name="no_weather">无法获取天气</string>
+</resources>
