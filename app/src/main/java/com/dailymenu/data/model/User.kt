@@ -49,7 +49,8 @@ data class UserSettings(
     val autoPlayVideo: Boolean = true,
     val videoQuality: VideoQuality = VideoQuality.AUTO,
     val language: String = "zh-CN",
-    val darkMode: DarkMode = DarkMode.SYSTEM
+    val darkMode: DarkMode = DarkMode.SYSTEM,
+    val dailyBudget: Float = 50f // 每日预算
 )
 
 enum class VideoQuality {

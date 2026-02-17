@@ -18,6 +18,7 @@ data class Recipe(
     val steps: List<String>,
     val cookingTime: Int, // 分钟
     val calories: Int,
+    val cost: Float = 0f, // 成本（元）
     val imageUrl: String?,
     val isHot: Boolean, // 适合热天
     val isCold: Boolean, // 适合冷天
@@ -87,6 +88,7 @@ data class WeatherInfo(
     val condition: WeatherCondition, // 天气状况
     val location: String,           // 位置
     val humidity: Int = 50,         // 湿度
+    val budget: Float = 50f,        // 每日预算（元）
     val updateTime: Long = System.currentTimeMillis()
 )
 
