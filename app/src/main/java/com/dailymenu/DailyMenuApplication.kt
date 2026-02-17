@@ -2,7 +2,9 @@ package com.dailymenu
 
 import android.app.Application
 import com.dailymenu.worker.DailyMenuWorker
+import dagger.hilt.android.HiltAndroidApp
 
+@HiltAndroidApp
 class DailyMenuApplication : Application() {
     override fun onCreate() {
         super.onCreate()
