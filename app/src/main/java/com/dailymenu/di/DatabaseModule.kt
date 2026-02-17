@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.room.Room
 import com.dailymenu.data.database.AppDatabase
 import com.dailymenu.data.database.RecipeDao
+import com.dailymenu.data.database.UserDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -31,5 +32,11 @@ object DatabaseModule {
     @Singleton
     fun provideRecipeDao(database: AppDatabase): RecipeDao {
         return database.recipeDao()
+    }
+
+    @Provides
+    @Singleton
+    fun provideUserDao(database: AppDatabase): UserDao {
+        return database.userDao()
     }
 }

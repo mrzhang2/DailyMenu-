@@ -25,7 +25,27 @@ data class Recipe(
     val isSunny: Boolean, // 适合晴天
     val season: Season,
     val tags: List<String>,
-    val isFavorite: Boolean = false
+    val isFavorite: Boolean = false,
+
+    // 视频相关字段
+    val videoUrl: String? = null,
+    val videoDuration: Int = 0, // 秒
+    val videoChapters: List<VideoChapter> = emptyList(),
+    val videoCached: Boolean = false,
+
+    // 图文相关字段
+    val stepImages: List<String> = emptyList(),
+    val tips: String? = null,
+    val difficulty: DifficultyLevel = DifficultyLevel.MEDIUM,
+    val servings: Int = 2,
+    val equipment: List<String> = emptyList(),
+
+    // 社交相关字段
+    val rating: Float = 0f,
+    val reviewCount: Int = 0,
+    val authorId: String? = null,
+    val createTime: Long = System.currentTimeMillis(),
+    val viewCount: Int = 0
 )
 
 enum class RecipeCategory {
@@ -79,3 +99,11 @@ enum class WeatherCondition {
     FOGGY,        // 雾
     WINDY         // 风
 }
+
+// 视频章节数据类
+data class VideoChapter(
+    val title: String,
+    val startTime: Int, // 开始时间（秒）
+    val endTime: Int,   // 结束时间（秒）
+    val description: String? = null
+)
