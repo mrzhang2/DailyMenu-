@@ -12,14 +12,19 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.layout.Placeable
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
+import coil.compose.AsyncImage
 import com.dailymenu.data.model.MealType
 import com.dailymenu.data.model.Recipe
+import com.dailymenu.data.model.StepImage
+import com.dailymenu.ui.components.ServingsCalculator
+import com.dailymenu.ui.components.StepTimer
 import com.dailymenu.ui.theme.*
 import com.dailymenu.ui.viewmodel.MenuViewModel
 
@@ -187,55 +192,42 @@ private fun RecipeDetailContent(
                     }
                 }
                 
-                // 食材清单
+                // 食材清单（使用份量计算器）
                 SectionTitle("食材清单")
-                Card(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(bottom = 16.dp),
-                    shape = RoundedCornerShape(12.dp),
-                    colors = CardDefaults.cardColors(
-                        containerColor = SurfaceWhite
-                    )
-                ) {
-                    Column(
-                        modifier = Modifier.padding(16.dp)
-                    ) {
-                        recipe.ingredients.forEachIndexed { index, ingredient ->
-                            Row(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(vertical = 8.dp),
-                                verticalAlignment = Alignment.CenterVertically
-                            ) {
-                                Icon(
-                                    imageVector = Icons.Default.CheckCircle,
-                                    contentDescription = null,
-                                    tint = PrimaryOrange,
-                                    modifier = Modifier.size(20.dp)
-                                )
-                                Text(
-                                    text = ingredient,
-                                    style = MaterialTheme.typography.bodyLarge,
-                                    modifier = Modifier.padding(start = 12.dp)
-                                )
-                            }
-                            if (index < recipe.ingredients.size - 1) {
-                                Divider(
-                                    modifier = Modifier.padding(vertical = 4.dp),
-                                    color = WarmCream
-                                )
-                            }
-                        }
-                    }
+                ServingsCalculator(
+                    ingredients = recipe.ingredients,
+                    defaultServings = recipe.servings.coerceIn(1, 20),
+                    modifier = Modifier.padding(bottom = 16.dp)
+                )
+                
+                // 制作步骤（使用步骤图片项）
+                SectionTitle("制作步骤")
+                
+                // 构建步骤图片映射（按步骤编号）
+                val stepImagesMap = remember(recipe.stepImages) {
+                    // 这里假设 stepImages 列表的顺序与步骤对应
+                    // 实际项目中可能需要根据 stepNumber 来映射
+                    recipe.stepImages.mapIndexed { index, imageUrl ->
+                        index + 1 to StepImage(
+                            id = index.toLong(),
+                            recipeId = recipe.id,
+                            stepNumber = index + 1,
+                            imageUrl = imageUrl,
+                            description = null,
+                            tips = null,
+                            duration = null
+                        )
+                    }.toMap()
                 }
                 
-                // 制作步骤
-                SectionTitle("制作步骤")
                 recipe.steps.forEachIndexed { index, step ->
-                    StepItem(
-                        stepNumber = index + 1,
-                        stepText = step
+                    val stepNumber = index + 1
+                    val stepImage = stepImagesMap[stepNumber]
+                    
+                    StepImageItem(
+                        stepNumber = stepNumber,
+                        stepText = step,
+                        stepImage = stepImage
                     )
                     if (index < recipe.steps.size - 1) {
                         Spacer(modifier = Modifier.height(12.dp))
@@ -287,48 +279,6 @@ private fun SectionTitle(title: String) {
         color = TextPrimary,
         modifier = Modifier.padding(bottom = 12.dp)
     )
-}
-
-@Composable
-private fun StepItem(stepNumber: Int, stepText: String) {
-    Card(
-        modifier = Modifier.fillMaxWidth(),
-        shape = RoundedCornerShape(12.dp),
-        colors = CardDefaults.cardColors(
-            containerColor = SurfaceWhite
-        )
-    ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp),
-            horizontalArrangement = Arrangement.spacedBy(12.dp)
-        ) {
-            // 步骤编号
-            Box(
-                modifier = Modifier
-                    .size(32.dp)
-                    .clip(RoundedCornerShape(8.dp))
-                    .background(PrimaryOrange),
-                contentAlignment = Alignment.Center
-            ) {
-                Text(
-                    text = stepNumber.toString(),
-                    style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.Bold,
-                    color = SurfaceWhite
-                )
-            }
-            
-            // 步骤内容
-            Text(
-                text = stepText,
-                style = MaterialTheme.typography.bodyLarge,
-                color = TextPrimary,
-                modifier = Modifier.weight(1f)
-            )
-        }
-    }
 }
 
 // 简单的 FlowRow 实现
@@ -392,6 +342,133 @@ private fun FlowRow(
                     x += placeable.width + hGapPx
                 }
                 y += rowHeights[rowIndex] + vGapPx
+            }
+        }
+    }
+}
+
+/**
+ * 步骤图片项组件
+ * 显示步骤编号、步骤文字说明、步骤图片（如果有）、小贴士（如果有）、计时器（如果有）
+ */
+@Composable
+private fun StepImageItem(
+    stepNumber: Int,
+    stepText: String,
+    stepImage: StepImage?,
+    modifier: Modifier = Modifier
+) {
+    Card(
+        modifier = modifier.fillMaxWidth(),
+        shape = RoundedCornerShape(12.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = SurfaceWhite
+        )
+    ) {
+        Column(
+            modifier = Modifier.padding(16.dp)
+        ) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(12.dp)
+            ) {
+                // 步骤编号
+                Box(
+                    modifier = Modifier
+                        .size(32.dp)
+                        .clip(RoundedCornerShape(8.dp))
+                        .background(PrimaryOrange),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(
+                        text = stepNumber.toString(),
+                        style = MaterialTheme.typography.titleMedium,
+                        fontWeight = FontWeight.Bold,
+                        color = SurfaceWhite
+                    )
+                }
+                
+                // 步骤内容
+                Column(
+                    modifier = Modifier.weight(1f)
+                ) {
+                    Text(
+                        text = stepText,
+                        style = MaterialTheme.typography.bodyLarge,
+                        color = TextPrimary
+                    )
+                    
+                    // 图片描述（如果有）
+                    stepImage?.description?.let { desc ->
+                        if (desc.isNotBlank()) {
+                            Text(
+                                text = desc,
+                                style = MaterialTheme.typography.bodyMedium,
+                                color = TextSecondary,
+                                modifier = Modifier.padding(top = 4.dp)
+                            )
+                        }
+                    }
+                }
+            }
+            
+            // 步骤图片（如果有）
+            stepImage?.imageUrl?.let { imageUrl ->
+                if (imageUrl.isNotBlank()) {
+                    Spacer(modifier = Modifier.height(12.dp))
+                    AsyncImage(
+                        model = imageUrl,
+                        contentDescription = "步骤${stepNumber}图片",
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(180.dp)
+                            .clip(RoundedCornerShape(8.dp)),
+                        contentScale = ContentScale.Crop
+                    )
+                }
+            }
+            
+            // 小贴士（如果有）
+            stepImage?.tips?.let { tip ->
+                if (tip.isNotBlank()) {
+                    Spacer(modifier = Modifier.height(12.dp))
+                    Card(
+                        modifier = Modifier.fillMaxWidth(),
+                        shape = RoundedCornerShape(8.dp),
+                        colors = CardDefaults.cardColors(
+                            containerColor = SecondaryYellow.copy(alpha = 0.2f)
+                        )
+                    ) {
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(12.dp),
+                            horizontalArrangement = Arrangement.spacedBy(8.dp),
+                            verticalAlignment = Alignment.Top
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.Lightbulb,
+                                contentDescription = null,
+                                tint = SecondaryYellowDark,
+                                modifier = Modifier.size(20.dp)
+                            )
+                            Text(
+                                text = tip,
+                                style = MaterialTheme.typography.bodyMedium,
+                                color = TextPrimary,
+                                modifier = Modifier.weight(1f)
+                            )
+                        }
+                    }
+                }
+            }
+            
+            // 计时器（如果有duration）
+            stepImage?.duration?.let { duration ->
+                if (duration > 0) {
+                    Spacer(modifier = Modifier.height(12.dp))
+                    StepTimer(durationSeconds = duration)
+                }
             }
         }
     }

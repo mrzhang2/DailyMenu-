@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 微信开放平台 AppID -->
+    <!-- 注意：使用前请替换为实际的微信 AppID -->
+    <string name="wechat_app_id" translatable="false">YOUR_WECHAT_APP_ID</string>
+    
+    <!-- 微信开放平台 AppSecret -->
+    <!-- 注意：使用前请替换为实际的微信 AppSecret -->
+    <string name="wechat_secret" translatable="false">YOUR_WECHAT_SECRET</string>
+</resources>

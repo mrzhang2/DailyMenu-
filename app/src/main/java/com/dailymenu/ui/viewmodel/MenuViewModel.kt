@@ -106,6 +106,11 @@ class MenuViewModel(application: Application) : AndroidViewModel(application) {
     // 创建示例食谱数据
     private fun createSampleRecipes(): List<Recipe> {
         return listOf(
+            // 新增：带完整字段的示例菜谱
+            createTomatoEggRecipe(),
+            createColaChickenWingsRecipe(),
+            createPorkCongeeRecipe(),
+            
             // 早餐
             Recipe(
                 name = "皮蛋瘦肉粥",
@@ -381,6 +386,124 @@ class MenuViewModel(application: Application) : AndroidViewModel(application) {
                 season = Season.ALL_YEAR,
                 tags = listOf("韩式", "拌饭", "丰富")
             )
+        )
+    }
+    
+    // 创建番茄炒蛋示例菜谱（带完整新字段）
+    private fun createTomatoEggRecipe(): Recipe {
+        return Recipe(
+            id = 101,
+            name = "番茄炒蛋",
+            description = "经典家常菜，酸甜可口，营养丰富",
+            category = RecipeCategory.CHINESE,
+            mealType = MealType.LUNCH,
+            ingredients = listOf("番茄 2个", "鸡蛋 3个", "葱花 适量", "盐 1茶匙", "糖 1茶匙", "食用油 适量"),
+            steps = listOf(
+                "番茄洗净切块，鸡蛋打散备用",
+                "热锅倒油，油热后倒入蛋液炒至凝固，盛出备用",
+                "锅中再加少许油，放入番茄块翻炒出汁",
+                "加入炒好的鸡蛋，翻炒均匀",
+                "加盐、糖调味，撒葱花即可出锅"
+            ),
+            cookingTime = 15,
+            calories = 280,
+            imageUrl = "https://example.com/tomato-egg.jpg",
+            isHot = true,
+            isCold = false,
+            isRainy = false,
+            isSunny = true,
+            season = Season.ALL_YEAR,
+            tags = listOf("家常菜", "快手菜", "素食"),
+            stepImages = listOf(
+                "https://example.com/tomato-step1.jpg",
+                "https://example.com/tomato-step2.jpg",
+                "https://example.com/tomato-step4.jpg"
+            ),
+            tips = "选择熟透的番茄|加糖中和酸味|出锅前尝咸淡",
+            difficulty = DifficultyLevel.EASY,
+            servings = 2,
+            equipment = listOf("炒锅", "铲子", "碗"),
+            rating = 4.8f,
+            reviewCount = 1256
+        )
+    }
+    
+    // 创建可乐鸡翅示例菜谱（带完整新字段）
+    private fun createColaChickenWingsRecipe(): Recipe {
+        return Recipe(
+            id = 102,
+            name = "可乐鸡翅",
+            description = "甜中带咸，肉质鲜嫩，老少皆宜",
+            category = RecipeCategory.CHINESE,
+            mealType = MealType.DINNER,
+            ingredients = listOf("鸡翅中 8个", "可乐 1罐", "生抽 2勺", "老抽 1勺", "料酒 1勺", "姜片 3片"),
+            steps = listOf(
+                "鸡翅洗净，两面划几刀方便入味",
+                "冷水下锅，加姜片料酒焯水去腥，捞出沥干",
+                "锅中放少许油，放入鸡翅煎至两面金黄",
+                "倒入可乐，加生抽、老抽调味",
+                "小火焖煮15分钟，大火收汁即可"
+            ),
+            cookingTime = 25,
+            calories = 450,
+            imageUrl = "https://example.com/cola-wings.jpg",
+            isHot = true,
+            isCold = true,
+            isRainy = true,
+            isSunny = true,
+            season = Season.ALL_YEAR,
+            tags = listOf("家常菜", "下饭菜", "肉类"),
+            stepImages = listOf(
+                "https://example.com/wings-step1.jpg",
+                "https://example.com/wings-step2.jpg",
+                "https://example.com/wings-step4.jpg"
+            ),
+            tips = "鸡翅划刀更入味|可乐用量没过鸡翅一半即可|收汁时注意火候别糊锅",
+            difficulty = DifficultyLevel.MEDIUM,
+            servings = 3,
+            equipment = listOf("炒锅", "铲子"),
+            rating = 4.9f,
+            reviewCount = 2341
+        )
+    }
+    
+    // 创建皮蛋瘦肉粥示例菜谱（带完整新字段）
+    private fun createPorkCongeeRecipe(): Recipe {
+        return Recipe(
+            id = 103,
+            name = "皮蛋瘦肉粥",
+            description = "暖胃营养的传统早餐粥品",
+            category = RecipeCategory.CHINESE,
+            mealType = MealType.BREAKFAST,
+            ingredients = listOf("大米 100g", "皮蛋 2个", "瘦肉 100g", "姜丝 适量", "葱花 适量", "盐 适量", "胡椒粉 少许"),
+            steps = listOf(
+                "大米洗净，提前浸泡30分钟",
+                "瘦肉切丝，加少许盐、料酒腌制10分钟",
+                "皮蛋去壳切成小块",
+                "锅中加水烧开，放入大米煮至开花",
+                "加入肉丝和皮蛋继续煮5分钟",
+                "加姜丝、盐、胡椒粉调味，撒葱花出锅"
+            ),
+            cookingTime = 45,
+            calories = 320,
+            imageUrl = "https://example.com/pork-congee.jpg",
+            isHot = true,
+            isCold = false,
+            isRainy = true,
+            isSunny = true,
+            season = Season.ALL_YEAR,
+            tags = listOf("早餐", "暖胃", "营养"),
+            stepImages = listOf(
+                "https://example.com/congee-step1.jpg",
+                "https://example.com/congee-step3.jpg",
+                "https://example.com/congee-step5.jpg"
+            ),
+            tips = "大米提前浸泡煮出来更绵密|肉丝变色即可不要煮老|出锅前尝味道调整咸淡",
+            difficulty = DifficultyLevel.EASY,
+            servings = 2,
+            equipment = listOf("汤锅", "勺子", "刀"),
+            rating = 4.7f,
+            reviewCount = 892
         )
     }
 }

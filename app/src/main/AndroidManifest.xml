@@ -33,6 +33,13 @@
             </intent-filter>
         </activity>
 
+        <!-- 微信登录回调 Activity -->
+        <activity
+            android:name=".wxapi.WXEntryActivity"
+            android:exported="true"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:launchMode="singleTask" />
+
         <receiver
             android:name=".worker.DailyMenuReceiver"
             android:enabled="true"
