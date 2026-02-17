@@ -6,6 +6,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
+import androidx.compose.material.icons.filled.AccountBalanceWallet
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -16,6 +17,8 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.dailymenu.data.model.MealType
 import com.dailymenu.data.model.WeatherCondition
+import com.dailymenu.ui.components.BudgetCard
+import com.dailymenu.ui.components.BudgetSettingDialog
 import com.dailymenu.ui.components.LoadingIndicator
 import com.dailymenu.ui.components.MealCard
 import com.dailymenu.ui.components.WeatherCard
@@ -34,8 +37,10 @@ fun HomeScreen(
     val weather by viewModel.weather.collectAsStateWithLifecycle()
     val isLoading by viewModel.isLoading.collectAsStateWithLifecycle()
     val error by viewModel.error.collectAsStateWithLifecycle()
+    val budget by viewModel.budget.collectAsStateWithLifecycle()
     
     var showManualWeatherDialog by remember { mutableStateOf(false) }
+    var showBudgetDialog by remember { mutableStateOf(false) }
     
     Scaffold(
         topBar = {
@@ -52,6 +57,13 @@ fun HomeScreen(
                     containerColor = BackgroundCream
                 ),
                 actions = {
+                    IconButton(onClick = { showBudgetDialog = true }) {
+                        Icon(
+                            imageVector = Icons.Default.AccountBalanceWallet,
+                            contentDescription = "设置预算",
+                            tint = PrimaryOrange
+                        )
+                    }
                     IconButton(onClick = onFavoritesClick) {
                         Icon(
                             imageVector = Icons.Default.Favorite,
@@ -101,6 +113,16 @@ fun HomeScreen(
                             weather = weather!!,
                             onManualClick = { showManualWeatherDialog = true },
                             onRefreshClick = { viewModel.loadMenuWithAutoWeather() }
+                        )
+                    }
+                    
+                    // 预算卡片
+                    dailyMenu?.let { menu ->
+                        val totalCost = menu.breakfast.cost + menu.lunch.cost + menu.dinner.cost
+                        BudgetCard(
+                            budget = budget,
+                            spent = totalCost,
+                            onClick = { showBudgetDialog = true }
                         )
                     }
                     
@@ -221,6 +243,18 @@ fun HomeScreen(
             onConfirm = { temp, condition ->
                 viewModel.setManualWeather(temp, condition)
                 showManualWeatherDialog = false
+            }
+        )
+    }
+    
+    // 预算设置对话框
+    if (showBudgetDialog) {
+        BudgetSettingDialog(
+            currentBudget = budget,
+            onDismiss = { showBudgetDialog = false },
+            onConfirm = { newBudget ->
+                viewModel.updateBudget(newBudget)
+                showBudgetDialog = false
             }
         )
     }

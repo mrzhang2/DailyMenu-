@@ -226,6 +226,12 @@ fun MealCard(
                             icon = Icons.Default.LocalFireDepartment,
                             text = "${recipe.calories}卡"
                         )
+                        if (recipe.cost > 0) {
+                            InfoChip(
+                                icon = Icons.Default.AttachMoney,
+                                text = "约${recipe.cost.toInt()}元"
+                            )
+                        }
                     }
                 }
             }

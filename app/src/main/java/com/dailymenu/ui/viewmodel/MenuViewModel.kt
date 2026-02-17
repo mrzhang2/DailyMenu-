@@ -28,6 +28,10 @@ class MenuViewModel(application: Application) : AndroidViewModel(application) {
     private val _error = MutableStateFlow<String?>(null)
     val error: StateFlow<String?> = _error.asStateFlow()
     
+    // 预算状态
+    private val _budget = MutableStateFlow(50f) // 默认50元
+    val budget: StateFlow<Float> = _budget.asStateFlow()
+    
     val favoriteRecipes = repository.getFavoriteRecipes()
     
     init {
@@ -77,13 +81,20 @@ class MenuViewModel(application: Application) : AndroidViewModel(application) {
     // 根据天气生成菜单
     private suspend fun generateMenu(weather: WeatherInfo) {
         try {
-            val menu = recommendationEngine.generateDailyMenu(weather)
+            val menu = recommendationEngine.generateDailyMenu(weather, _budget.value)
             _dailyMenu.value = menu
         } catch (e: Exception) {
             _error.value = "生成菜单失败：${e.message}"
         } finally {
             _isLoading.value = false
         }
+    }
+    
+    // 更新预算
+    fun updateBudget(newBudget: Float) {
+        _budget.value = newBudget
+        // 重新生成菜单以应用新预算
+        refreshMenu()
     }
     
     // 刷新菜单
@@ -121,6 +132,7 @@ class MenuViewModel(application: Application) : AndroidViewModel(application) {
                 steps = listOf("大米洗净浸泡30分钟", "瘦肉切丝腌制", "水煮开后下米", "米烂后加入皮蛋和肉丝", "调味撒葱花"),
                 cookingTime = 40,
                 calories = 280,
+                cost = 10f,
                 imageUrl = null,
                 isHot = true,
                 isCold = true,
@@ -138,6 +150,7 @@ class MenuViewModel(application: Application) : AndroidViewModel(application) {
                 steps = listOf("面包片稍微烤一下", "煎蛋和火腿", "层层叠加食材", "对角切开即可"),
                 cookingTime = 10,
                 calories = 350,
+                cost = 12f,
                 imageUrl = null,
                 isHot = false,
                 isCold = true,
@@ -155,6 +168,7 @@ class MenuViewModel(application: Application) : AndroidViewModel(application) {
                 steps = listOf("绿豆提前浸泡", "与大米一起煮至开花", "加入冰糖调味", "放凉后食用更佳"),
                 cookingTime = 45,
                 calories = 200,
+                cost = 8f,
                 imageUrl = null,
                 isHot = false,
                 isCold = false,
@@ -172,6 +186,7 @@ class MenuViewModel(application: Application) : AndroidViewModel(application) {
                 steps = listOf("黄豆浸泡一夜", "用豆浆机打豆浆", "过滤煮沸", "搭配油条食用"),
                 cookingTime = 30,
                 calories = 400,
+                cost = 10f,
                 imageUrl = null,
                 isHot = true,
                 isCold = true,
@@ -190,6 +205,7 @@ class MenuViewModel(application: Application) : AndroidViewModel(application) {
                 steps = listOf("五花肉切块焯水", "炒糖色", "下肉块翻炒上色", "加水和调料炖煮", "收汁装盘"),
                 cookingTime = 60,
                 calories = 650,
+                cost = 28f,
                 imageUrl = null,
                 isHot = true,
                 isCold = true,
@@ -207,6 +223,7 @@ class MenuViewModel(application: Application) : AndroidViewModel(application) {
                 steps = listOf("蔬菜洗净切段", "热锅下油爆香蒜末", "下蔬菜快炒", "调味出锅"),
                 cookingTime = 5,
                 calories = 80,
+                cost = 6f,
                 imageUrl = null,
                 isHot = false,
                 isCold = true,
@@ -224,6 +241,7 @@ class MenuViewModel(application: Application) : AndroidViewModel(application) {
                 steps = listOf("番茄切块炒出汁", "加水煮开", "下面条煮熟", "倒入蛋液", "调味撒葱花"),
                 cookingTime = 15,
                 calories = 450,
+                cost = 12f,
                 imageUrl = null,
                 isHot = true,
                 isCold = true,
@@ -241,6 +259,7 @@ class MenuViewModel(application: Application) : AndroidViewModel(application) {
                 steps = listOf("黄瓜拍碎切段", "加盐腌制出水", "挤干水分", "加入调料拌匀", "冷藏后更爽口"),
                 cookingTime = 10,
                 calories = 60,
+                cost = 6f,
                 imageUrl = null,
                 isHot = false,
                 isCold = false,
@@ -258,6 +277,7 @@ class MenuViewModel(application: Application) : AndroidViewModel(application) {
                 steps = listOf("鸡肉切丁腌制", "调宫保汁", "炒香辣椒花椒", "下鸡丁炒至变色", "倒入汁料和花生米", "快速翻炒均匀"),
                 cookingTime = 20,
                 calories = 480,
+                cost = 22f,
                 imageUrl = null,
                 isHot = true,
                 isCold = true,
@@ -275,6 +295,7 @@ class MenuViewModel(application: Application) : AndroidViewModel(application) {
                 steps = listOf("鱼片腌制", "炒香酸菜泡椒", "加水煮开", "下鱼片煮熟", "淋热油激香"),
                 cookingTime = 30,
                 calories = 380,
+                cost = 30f,
                 imageUrl = null,
                 isHot = false,
                 isCold = true,
@@ -293,6 +314,7 @@ class MenuViewModel(application: Application) : AndroidViewModel(application) {
                 steps = listOf("鱼洗净划刀", "抹料酒姜片腌制", "水开后蒸8-10分钟", "倒掉汤汁撒葱丝", "淋豉油和热油"),
                 cookingTime = 20,
                 calories = 200,
+                cost = 35f,
                 imageUrl = null,
                 isHot = true,
                 isCold = true,
@@ -310,6 +332,7 @@ class MenuViewModel(application: Application) : AndroidViewModel(application) {
                 steps = listOf("排骨焯水", "加水和姜炖煮", "排骨熟后下冬瓜", "煮至冬瓜透明", "调味撒枸杞"),
                 cookingTime = 50,
                 calories = 250,
+                cost = 28f,
                 imageUrl = null,
                 isHot = false,
                 isCold = true,
@@ -327,6 +350,7 @@ class MenuViewModel(application: Application) : AndroidViewModel(application) {
                 steps = listOf("豆腐切块焯水", "炒香肉末和豆瓣酱", "加水煮开", "下豆腐小火煮", "勾芡撒花椒粉"),
                 cookingTime = 15,
                 calories = 320,
+                cost = 12f,
                 imageUrl = null,
                 isHot = true,
                 isCold = true,
@@ -344,6 +368,7 @@ class MenuViewModel(application: Application) : AndroidViewModel(application) {
                 steps = listOf("水烧开", "下紫菜和虾皮", "倒入蛋液搅拌", "调味撒葱花", "淋香油出锅"),
                 cookingTime = 5,
                 calories = 80,
+                cost = 8f,
                 imageUrl = null,
                 isHot = true,
                 isCold = true,
@@ -361,6 +386,7 @@ class MenuViewModel(application: Application) : AndroidViewModel(application) {
                 steps = listOf("香菇切片青菜洗净", "先炒香菇至软", "下青菜快炒", "调味出锅"),
                 cookingTime = 8,
                 calories = 90,
+                cost = 10f,
                 imageUrl = null,
                 isHot = false,
                 isCold = true,
@@ -378,6 +404,7 @@ class MenuViewModel(application: Application) : AndroidViewModel(application) {
                 steps = listOf("蔬菜分别焯水或炒熟", "牛肉炒熟调味", "石锅抹油铺米饭", "码放食材", "中间放煎蛋", "配辣酱上桌"),
                 cookingTime = 25,
                 calories = 550,
+                cost = 28f,
                 imageUrl = null,
                 isHot = true,
                 isCold = true,
@@ -407,6 +434,7 @@ class MenuViewModel(application: Application) : AndroidViewModel(application) {
             ),
             cookingTime = 15,
             calories = 280,
+            cost = 8f,
             imageUrl = "https://example.com/tomato-egg.jpg",
             isHot = true,
             isCold = false,
@@ -446,6 +474,7 @@ class MenuViewModel(application: Application) : AndroidViewModel(application) {
             ),
             cookingTime = 25,
             calories = 450,
+            cost = 25f,
             imageUrl = "https://example.com/cola-wings.jpg",
             isHot = true,
             isCold = true,
@@ -486,6 +515,7 @@ class MenuViewModel(application: Application) : AndroidViewModel(application) {
             ),
             cookingTime = 45,
             calories = 320,
+            cost = 10f,
             imageUrl = "https://example.com/pork-congee.jpg",
             isHot = true,
             isCold = false,
