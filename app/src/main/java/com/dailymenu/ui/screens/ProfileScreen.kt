@@ -38,8 +38,8 @@ fun ProfileScreen(
     modifier: Modifier = Modifier,
     viewModel: AuthViewModel = hiltViewModel()
 ) {
-    val isLoggedIn by viewModel.isLoggedIn.collectAsStateWithLifecycle()
-    val currentUser by viewModel.currentUser.collectAsStateWithLifecycle()
+    val isLoggedIn by viewModel.isLoggedIn.collectAsStateWithLifecycle(initialValue = false)
+    val currentUser by viewModel.currentUser.collectAsStateWithLifecycle(initialValue = null)
 
     Scaffold(
         topBar = {

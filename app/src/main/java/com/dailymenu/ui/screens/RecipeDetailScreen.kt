@@ -7,8 +7,9 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.Comment
-import androidx.compose.material.icons.automirrored.filled.Reply
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Comment
+import androidx.compose.material.icons.filled.Reply
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -43,13 +44,13 @@ fun RecipeDetailScreen(
     onNavigateBack: () -> Unit,
     viewModel: RecipeDetailViewModel = viewModel()
 ) {
-    val recipe by viewModel.recipe.collectAsStateWithLifecycle()
-    val comments by viewModel.comments.collectAsStateWithLifecycle()
-    val learningProgress by viewModel.learningProgress.collectAsStateWithLifecycle()
-    val isLoading by viewModel.isLoading.collectAsStateWithLifecycle()
-    val error by viewModel.error.collectAsStateWithLifecycle()
-    val videoProgress by viewModel.videoProgress.collectAsStateWithLifecycle()
-    val commentCount by viewModel.commentCount.collectAsStateWithLifecycle()
+    val recipe by viewModel.recipe.collectAsStateWithLifecycle(initialValue = null)
+    val comments by viewModel.comments.collectAsStateWithLifecycle(initialValue = emptyList())
+    val learningProgress by viewModel.learningProgress.collectAsStateWithLifecycle(initialValue = null)
+    val isLoading by viewModel.isLoading.collectAsStateWithLifecycle(initialValue = false)
+    val error by viewModel.error.collectAsStateWithLifecycle(initialValue = null)
+    val videoProgress by viewModel.videoProgress.collectAsStateWithLifecycle(initialValue = 0L)
+    val reviewCount by viewModel.reviewCount.collectAsStateWithLifecycle(initialValue = 0)
 
     var showCommentInput by remember { mutableStateOf(false) }
     var replyToComment by remember { mutableStateOf<Comment?>(null) }
@@ -98,7 +99,7 @@ fun RecipeDetailScreen(
                     onFavoriteClick = { viewModel.toggleFavorite() },
                     onShareClick = { /* TODO: 分享功能 */ },
                     onCommentClick = { showCommentInput = true },
-                    commentCount = commentCount
+                    commentCount = reviewCount
                 )
             }
         },
@@ -238,7 +239,7 @@ private fun RecipeDetailContent(
             Spacer(modifier = Modifier.height(24.dp))
 
             // 评论区
-            SectionTitle("评论 ($commentCount)")
+            SectionTitle("评论 ($reviewCount)")
             Card(
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(12.dp),
@@ -489,6 +490,7 @@ private fun RecipeBasicInfo(recipe: Recipe) {
                         com.dailymenu.data.model.DifficultyLevel.EASY -> "简单"
                         com.dailymenu.data.model.DifficultyLevel.MEDIUM -> "中等"
                         com.dailymenu.data.model.DifficultyLevel.HARD -> "困难"
+                        com.dailymenu.data.model.DifficultyLevel.EXPERT -> "专家"
                     }
                 )
             }
@@ -748,7 +750,7 @@ private fun BottomActionBar(
 
             // 评论按钮
             ActionButton(
-                icon = Icons.AutoMirrored.Filled.Comment,
+                icon = Icons.Default.Comment,
                 label = if (commentCount > 0) "评论($commentCount)" else "评论",
                 onClick = onCommentClick
             )

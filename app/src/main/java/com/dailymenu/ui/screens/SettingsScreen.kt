@@ -68,7 +68,7 @@ fun SettingsScreen(
                     subtitle = "未绑定",
                     onClick = { }
                 )
-                HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp), color = BackgroundCream)
+                Divider(modifier = Modifier.padding(horizontal = 16.dp), thickness = 0.5.dp, color = WarmCream)
                 SettingsActionItem(
                     icon = Icons.Default.Phone,
                     title = "手机绑定",
@@ -86,7 +86,7 @@ fun SettingsScreen(
                     checked = pushEnabled,
                     onCheckedChange = { pushEnabled = it }
                 )
-                HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp), color = BackgroundCream)
+                Divider(modifier = Modifier.padding(horizontal = 16.dp), thickness = 0.5.dp, color = WarmCream)
                 SettingsActionItem(
                     icon = Icons.Default.Schedule,
                     title = "推送时间",
@@ -103,7 +103,7 @@ fun SettingsScreen(
                     subtitle = videoQuality,
                     onClick = { }
                 )
-                HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp), color = BackgroundCream)
+                Divider(modifier = Modifier.padding(horizontal = 16.dp), thickness = 0.5.dp, color = WarmCream)
                 var wifiDownloadOnly by remember { mutableStateOf(false) }
                 SettingsSwitchItem(
                     icon = Icons.Default.Wifi,
@@ -121,7 +121,7 @@ fun SettingsScreen(
                     subtitle = "管理黑名单列表",
                     onClick = { }
                 )
-                HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp), color = BackgroundCream)
+                Divider(modifier = Modifier.padding(horizontal = 16.dp), thickness = 0.5.dp, color = WarmCream)
                 SettingsActionItem(
                     icon = Icons.Default.Security,
                     title = "授权管理",
@@ -146,14 +146,14 @@ fun SettingsScreen(
                     subtitle = "v1.0.0",
                     onClick = { }
                 )
-                HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp), color = BackgroundCream)
+                Divider(modifier = Modifier.padding(horizontal = 16.dp), thickness = 0.5.dp, color = WarmCream)
                 SettingsActionItem(
                     icon = Icons.Default.Description,
                     title = "用户协议",
                     subtitle = "查看用户服务协议",
                     onClick = { }
                 )
-                HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp), color = BackgroundCream)
+                Divider(modifier = Modifier.padding(horizontal = 16.dp), thickness = 0.5.dp, color = WarmCream)
                 SettingsActionItem(
                     icon = Icons.Default.PrivacyTip,
                     title = "隐私政策",

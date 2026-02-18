@@ -98,7 +98,7 @@ fun LearningProgressCard(
                 Spacer(modifier = Modifier.height(4.dp))
 
                 LinearProgressIndicator(
-                    progress = { progressPercent / 100f },
+                    progress = progressPercent / 100f,
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(6.dp),

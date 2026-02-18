@@ -31,9 +31,9 @@ fun DiscoverScreen(
     onRecipeClick: (Long) -> Unit,
     viewModel: DiscoverViewModel = hiltViewModel()
 ) {
-    val searchQuery by viewModel.searchQuery.collectAsStateWithLifecycle()
-    val selectedCategory by viewModel.selectedCategory.collectAsStateWithLifecycle()
-    val sortOption by viewModel.sortOption.collectAsStateWithLifecycle()
+    val searchQuery by viewModel.searchQuery.collectAsStateWithLifecycle(initialValue = "")
+    val selectedCategory by viewModel.selectedCategory.collectAsStateWithLifecycle(initialValue = null)
+    val sortOption by viewModel.sortOption.collectAsStateWithLifecycle(initialValue = SortOption.POPULARITY)
     val recipes by viewModel.recipes.collectAsStateWithLifecycle(initialValue = emptyList())
 
     Scaffold(

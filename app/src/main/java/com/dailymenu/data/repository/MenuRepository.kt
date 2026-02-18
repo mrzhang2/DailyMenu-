@@ -153,4 +153,8 @@ class MenuRepository(
     suspend fun getRecipeCount(): Int {
         return recipeDao.getRecipeCount()
     }
+
+    fun getRecipesByRating(): Flow<List<Recipe>> {
+        return recipeDao.getRecipesByRating()
+    }
 }

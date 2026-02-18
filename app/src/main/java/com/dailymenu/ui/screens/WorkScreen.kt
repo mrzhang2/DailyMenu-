@@ -26,6 +26,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import com.dailymenu.data.model.Recipe
 import com.dailymenu.data.model.Work
+import com.dailymenu.ui.components.WorkGridItem
 import com.dailymenu.ui.theme.*
 import com.dailymenu.ui.viewmodel.WorkViewModel
 
@@ -36,10 +37,10 @@ fun WorkScreen(
     onWorkClick: (Long) -> Unit,
     viewModel: WorkViewModel = hiltViewModel()
 ) {
-    val selectedTab by viewModel.selectedTab.collectAsStateWithLifecycle()
-    val myWorks by viewModel.myWorks.collectAsStateWithLifecycle()
+    val selectedTab by viewModel.selectedTab.collectAsStateWithLifecycle(initialValue = 0)
+    val myWorks by viewModel.myWorks.collectAsStateWithLifecycle(initialValue = emptyList())
     val recipes by viewModel.recipes.collectAsStateWithLifecycle(initialValue = emptyList())
-    val isPublishing by viewModel.isPublishing.collectAsStateWithLifecycle()
+    val isPublishing by viewModel.isPublishing.collectAsStateWithLifecycle(initialValue = false)
 
     LaunchedEffect(Unit) {
         viewModel.setCurrentUser("current_user")

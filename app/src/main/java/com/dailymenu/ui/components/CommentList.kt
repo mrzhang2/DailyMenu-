@@ -39,10 +39,10 @@ fun CommentList(
                     onLike = { onLike(comment.id) },
                     onReply = { onReply(comment) }
                 )
-                HorizontalDivider(
+                Divider(
                     modifier = Modifier.padding(horizontal = 16.dp),
-                    color = PrimaryOrange.copy(alpha = 0.1f),
-                    thickness = 0.5.dp
+                    thickness = 0.5.dp,
+                    color = PrimaryOrange.copy(alpha = 0.1f)
                 )
             }
 

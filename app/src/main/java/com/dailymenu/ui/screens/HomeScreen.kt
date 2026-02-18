@@ -40,26 +40,17 @@ fun HomeScreen(
     onSettingsClick: () -> Unit,
     viewModel: MenuViewModel = viewModel()
 ) {
-    val dailyMenu by viewModel.dailyMenu.collectAsStateWithLifecycle()
-    val weather by viewModel.weather.collectAsStateWithLifecycle()
-    val isLoading by viewModel.isLoading.collectAsStateWithLifecycle()
-    val error by viewModel.error.collectAsStateWithLifecycle()
-    val budget by viewModel.budget.collectAsStateWithLifecycle()
-    val favoriteRecipes by viewModel.favoriteRecipes.collectAsStateWithLifecycle()
-    val popularRecipes by viewModel.popularRecipes.collectAsStateWithLifecycle()
+    val dailyMenu by viewModel.dailyMenu.collectAsStateWithLifecycle(initialValue = null)
+    val weather by viewModel.weather.collectAsStateWithLifecycle(initialValue = null)
+    val isLoading by viewModel.isLoading.collectAsStateWithLifecycle(initialValue = false)
+    val error by viewModel.error.collectAsStateWithLifecycle(initialValue = null)
+    val budget by viewModel.budget.collectAsStateWithLifecycle(initialValue = 50f)
+    val favoriteRecipes by viewModel.favoriteRecipes.collectAsStateWithLifecycle(initialValue = emptyList())
+    val popularRecipes by viewModel.popularRecipes.collectAsStateWithLifecycle(initialValue = emptyList())
     
     var showManualWeatherDialog by remember { mutableStateOf(false) }
     var showBudgetDialog by remember { mutableStateOf(false) }
     var isRefreshing by remember { mutableStateOf(false) }
-    
-    val pullRefreshState = rememberPullRefreshState(
-        refreshing = isRefreshing,
-        onRefresh = {
-            isRefreshing = true
-            viewModel.refreshMenu()
-            isRefreshing = false
-        }
-    )
     
     val scope = rememberCoroutineScope()
     
@@ -125,7 +116,6 @@ fun HomeScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
-                .pullRefresh(pullRefreshState)
         ) {
             if (isLoading && dailyMenu == null) {
                 LoadingIndicator()
@@ -255,14 +245,6 @@ fun HomeScreen(
                     Spacer(modifier = Modifier.height(80.dp))
                 }
             }
-            
-            // 下拉刷新指示器
-            PullRefreshIndicator(
-                refreshing = isRefreshing,
-                state = pullRefreshState,
-                modifier = Modifier.align(Alignment.TopCenter),
-                contentColor = PrimaryOrange
-            )
         }
     }
     
@@ -673,45 +655,4 @@ private fun WeatherOptionItem(
             modifier = Modifier.padding(start = 8.dp)
         )
     }
-}
-
-// 下拉刷新相关
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-private fun rememberPullRefreshState(
-    refreshing: Boolean,
-    onRefresh: () -> Unit,
-    refreshThreshold: Float = 80f,
-    refreshingOffset: Float = 56f
-): PullRefreshState {
-    return androidx.compose.material.pullrefresh.rememberPullRefreshState(
-        refreshing = refreshing,
-        onRefresh = onRefresh
-    )
-}
-
-@Composable
-private fun PullRefreshIndicator(
-    refreshing: Boolean,
-    state: PullRefreshState,
-    modifier: Modifier = Modifier,
-    contentColor: androidx.compose.ui.graphics.Color = PrimaryOrange
-) {
-    androidx.compose.material.pullrefresh.PullRefreshIndicator(
-        refreshing = refreshing,
-        state = state,
-        modifier = modifier,
-        contentColor = contentColor
-    )
-}
-
-private interface PullRefreshState {
-    val progress: Float
-}
-
-private fun Modifier.pullRefresh(
-    state: PullRefreshState,
-    enabled: Boolean = true
-): Modifier {
-    return this
 }

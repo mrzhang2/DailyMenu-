@@ -104,7 +104,7 @@ fun BudgetCard(
                     
                     // 进度条
                     LinearProgressIndicator(
-                        progress = { progress },
+                        progress = progress,
                         modifier = Modifier
                             .fillMaxWidth(0.7f)
                             .height(6.dp)

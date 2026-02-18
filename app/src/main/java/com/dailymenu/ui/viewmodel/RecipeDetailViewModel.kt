@@ -28,8 +28,8 @@ class RecipeDetailViewModel(application: Application) : AndroidViewModel(applica
     private val _comments = MutableStateFlow<List<Comment>>(emptyList())
     val comments: StateFlow<List<Comment>> = _comments.asStateFlow()
     
-    private val _commentCount = MutableStateFlow(0)
-    val commentCount: StateFlow<Int> = _commentCount.asStateFlow()
+    private val _reviewCount = MutableStateFlow(0)
+    val reviewCount: StateFlow<Int> = _reviewCount.asStateFlow()
     
     private val _isLoading = MutableStateFlow(false)
     val isLoading: StateFlow<Boolean> = _isLoading.asStateFlow()
@@ -71,7 +71,7 @@ class RecipeDetailViewModel(application: Application) : AndroidViewModel(applica
         viewModelScope.launch {
             commentRepository.getComments(recipeId).collect { commentList ->
                 _comments.value = commentList
-                _commentCount.value = commentList.size
+                _reviewCount.value = commentList.size
             }
         }
     }
