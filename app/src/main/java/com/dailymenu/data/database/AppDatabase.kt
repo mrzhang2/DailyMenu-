@@ -5,12 +5,13 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
+import com.dailymenu.data.model.Comment
 import com.dailymenu.data.model.Recipe
 import com.dailymenu.data.model.StepImage
 import com.dailymenu.data.model.User
 
 @Database(
-    entities = [Recipe::class, StepImage::class, User::class],
+    entities = [Recipe::class, StepImage::class, User::class, Comment::class],
     version = 2,
     exportSchema = false
 )
@@ -18,6 +19,7 @@ import com.dailymenu.data.model.User
 abstract class AppDatabase : RoomDatabase() {
     abstract fun recipeDao(): RecipeDao
     abstract fun userDao(): UserDao
+    abstract fun commentDao(): CommentDao
 
     companion object {
         @Volatile

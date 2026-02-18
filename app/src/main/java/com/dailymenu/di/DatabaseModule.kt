@@ -3,6 +3,7 @@ package com.dailymenu.di
 import android.content.Context
 import androidx.room.Room
 import com.dailymenu.data.database.AppDatabase
+import com.dailymenu.data.database.CommentDao
 import com.dailymenu.data.database.RecipeDao
 import com.dailymenu.data.database.UserDao
 import dagger.Module
@@ -38,5 +39,11 @@ object DatabaseModule {
     @Singleton
     fun provideUserDao(database: AppDatabase): UserDao {
         return database.userDao()
+    }
+
+    @Provides
+    @Singleton
+    fun provideCommentDao(database: AppDatabase): CommentDao {
+        return database.commentDao()
     }
 }
