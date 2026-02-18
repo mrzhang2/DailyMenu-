@@ -46,4 +46,25 @@ interface RecipeDao {
 
     @Query("SELECT COUNT(*) FROM recipes WHERE isFavorite = 1")
     fun getFavoriteCount(): Flow<Int>
+
+    @Query("SELECT * FROM recipes")
+    fun getAllRecipes(): Flow<List<Recipe>>
+
+    @Query("SELECT * FROM recipes WHERE name LIKE '%' || :query || '%' OR ingredients LIKE '%' || :query || '%'")
+    fun searchRecipes(query: String): Flow<List<Recipe>>
+
+    @Query("SELECT * FROM recipes WHERE category = :category")
+    fun getRecipesByCategory(category: com.dailymenu.data.model.RecipeCategory): Flow<List<Recipe>>
+
+    @Query("SELECT * FROM recipes WHERE category = :category AND (name LIKE '%' || :query || '%' OR ingredients LIKE '%' || :query || '%')")
+    fun searchRecipesByCategory(query: String, category: com.dailymenu.data.model.RecipeCategory): Flow<List<Recipe>>
+
+    @Query("SELECT * FROM recipes ORDER BY viewCount DESC")
+    fun getRecipesByPopularity(): Flow<List<Recipe>>
+
+    @Query("SELECT * FROM recipes ORDER BY createTime DESC")
+    fun getRecipesByNewest(): Flow<List<Recipe>>
+
+    @Query("SELECT * FROM recipes ORDER BY rating DESC")
+    fun getRecipesByRating(): Flow<List<Recipe>>
 }

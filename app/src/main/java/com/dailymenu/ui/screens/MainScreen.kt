@@ -29,7 +29,8 @@ import com.dailymenu.ui.theme.TextSecondary
 @Composable
 fun MainScreen(
     onNavigateToRecipe: (Long) -> Unit,
-    onNavigateToSettings: () -> Unit
+    onNavigateToSettings: () -> Unit,
+    onNavigateToWork: () -> Unit
 ) {
     val navController = rememberNavController()
     
@@ -61,7 +62,9 @@ fun MainScreen(
             }
             
             composable(Screen.Discover.route) {
-                PlaceholderScreen(title = "发现")
+                DiscoverScreen(
+                    onRecipeClick = onNavigateToRecipe
+                )
             }
             
             composable(Screen.Favorites.route) {
@@ -98,6 +101,9 @@ fun MainScreen(
                     onNavigateToLogin = {
                         // Profile screen handles its own login state
                         // This callback is for when user clicks login from guest mode
+                    },
+                    onNavigateToWork = {
+                        navController.navigate(Screen.Work.route)
                     }
                 )
             }
