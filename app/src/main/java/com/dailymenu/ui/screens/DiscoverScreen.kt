@@ -33,7 +33,7 @@ fun DiscoverScreen(
 ) {
     val searchQuery by viewModel.searchQuery.collectAsStateWithLifecycle(initialValue = "")
     val selectedCategory by viewModel.selectedCategory.collectAsStateWithLifecycle(initialValue = null)
-    val sortOption by viewModel.sortOption.collectAsStateWithLifecycle(initialValue = SortOption.POPULARITY)
+    val sortOption by viewModel.sortOption.collectAsStateWithLifecycle()
     val recipes by viewModel.recipes.collectAsStateWithLifecycle(initialValue = emptyList())
 
     Scaffold(
@@ -136,12 +136,11 @@ private fun CategoryChips(
                     containerColor = SurfaceWhite,
                     labelColor = TextPrimary
                 ),
-                border = FilterChipDefaults.filterChipBorder(
-                    borderColor = WarmBrown.copy(alpha = 0.3f),
-                    selectedBorderColor = PrimaryOrange,
-                    enabled = true,
-                    selected = selectedCategory == category
-                )
+                border = if (selectedCategory == category) {
+                    androidx.compose.foundation.BorderStroke(1.dp, PrimaryOrange)
+                } else {
+                    androidx.compose.foundation.BorderStroke(1.dp, WarmBrown.copy(alpha = 0.3f))
+                }
             )
         }
     }
