@@ -4,8 +4,10 @@ import android.content.Context
 import androidx.room.Room
 import com.dailymenu.data.database.AppDatabase
 import com.dailymenu.data.database.CommentDao
+import com.dailymenu.data.database.LearningProgressDao
 import com.dailymenu.data.database.RecipeDao
 import com.dailymenu.data.database.UserDao
+import com.dailymenu.data.database.WorkDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -45,5 +47,17 @@ object DatabaseModule {
     @Singleton
     fun provideCommentDao(database: AppDatabase): CommentDao {
         return database.commentDao()
+    }
+
+    @Provides
+    @Singleton
+    fun provideWorkDao(database: AppDatabase): WorkDao {
+        return database.workDao()
+    }
+
+    @Provides
+    @Singleton
+    fun provideLearningProgressDao(database: AppDatabase): LearningProgressDao {
+        return database.learningProgressDao()
     }
 }
