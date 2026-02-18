@@ -10,6 +10,7 @@ import com.dailymenu.ui.screens.LoginScreen
 import com.dailymenu.ui.screens.MainScreen
 import com.dailymenu.ui.screens.RecipeDetailScreen
 import com.dailymenu.ui.screens.SettingsScreen
+import com.dailymenu.ui.screens.WorkScreen
 
 @Composable
 fun NavGraph(
@@ -46,6 +47,9 @@ fun NavGraph(
                 },
                 onNavigateToSettings = {
                     navController.navigate(Screen.Settings.route)
+                },
+                onNavigateToWork = {
+                    navController.navigate(Screen.Work.route)
                 }
             )
         }
@@ -70,6 +74,15 @@ fun NavGraph(
                 onNavigateBack = { navController.popBackStack() },
                 onManualWeatherClick = {
                     navController.popBackStack()
+                }
+            )
+        }
+
+        composable(Screen.Work.route) {
+            WorkScreen(
+                onNavigateBack = { navController.popBackStack() },
+                onWorkClick = { workId ->
+                    navController.navigate(Screen.WorkDetail.createRoute(workId))
                 }
             )
         }

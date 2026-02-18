@@ -19,6 +19,12 @@ sealed class Screen(val route: String) {
     object RecipeDetail : Screen("recipe/{recipeId}") {
         fun createRoute(recipeId: Long) = "recipe/$recipeId"
     }
+
+    object Work : Screen("work")
+
+    object WorkDetail : Screen("work/{workId}") {
+        fun createRoute(workId: Long) = "work/$workId"
+    }
     
     object Settings : Screen("settings")
 }

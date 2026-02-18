@@ -34,6 +34,9 @@ class MenuViewModel(application: Application) : AndroidViewModel(application) {
     
     val favoriteRecipes = repository.getFavoriteRecipes()
     
+    // 热门推荐菜谱（按评分排序）
+    val popularRecipes = repository.getRecipesByRating()
+    
     init {
         viewModelScope.launch {
             // 初始化数据库

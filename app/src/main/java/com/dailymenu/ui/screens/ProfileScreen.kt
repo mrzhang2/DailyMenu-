@@ -34,6 +34,7 @@ fun ProfileScreen(
     onNavigateToFavorites: () -> Unit,
     onNavigateToSettings: () -> Unit,
     onNavigateToLogin: () -> Unit,
+    onNavigateToWork: () -> Unit,
     modifier: Modifier = Modifier,
     viewModel: AuthViewModel = hiltViewModel()
 ) {
@@ -75,6 +76,7 @@ fun ProfileScreen(
                 UserProfileContent(
                     user = currentUser!!,
                     onNavigateToFavorites = onNavigateToFavorites,
+                    onNavigateToWork = onNavigateToWork,
                     modifier = Modifier.fillMaxSize()
                 )
             } else {
@@ -91,6 +93,7 @@ fun ProfileScreen(
 fun UserProfileContent(
     user: User,
     onNavigateToFavorites: () -> Unit,
+    onNavigateToWork: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -103,7 +106,8 @@ fun UserProfileContent(
         UserInfoCard(user = user)
         StatsRow(user = user)
         FunctionMenuCard(
-            onNavigateToFavorites = onNavigateToFavorites
+            onNavigateToFavorites = onNavigateToFavorites,
+            onNavigateToWork = onNavigateToWork
         )
         OtherMenuCard()
     }
@@ -241,6 +245,7 @@ fun StatsRow(
 @Composable
 fun FunctionMenuCard(
     onNavigateToFavorites: () -> Unit,
+    onNavigateToWork: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Card(
@@ -268,7 +273,7 @@ fun FunctionMenuCard(
             MenuItem(
                 icon = Icons.Default.PhotoLibrary,
                 title = "我的作品",
-                onClick = { /* TODO */ }
+                onClick = onNavigateToWork
             )
             MenuItem(
                 icon = Icons.Default.Download,

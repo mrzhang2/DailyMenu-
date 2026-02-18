@@ -4,6 +4,7 @@ import androidx.room.TypeConverter
 import com.dailymenu.data.model.DifficultyLevel
 import com.dailymenu.data.model.MealType
 import com.dailymenu.data.model.MemberLevel
+import com.dailymenu.data.model.NotificationType
 import com.dailymenu.data.model.RecipeCategory
 import com.dailymenu.data.model.Season
 import com.dailymenu.data.model.VideoChapter
@@ -118,5 +119,19 @@ class Converters {
     fun toIntList(value: String): List<Int> {
         val listType = object : TypeToken<List<Int>>() {}.type
         return gson.fromJson(value, listType) ?: emptyList()
+    }
+
+    @TypeConverter
+    fun fromNotificationType(type: NotificationType): String {
+        return type.name
+    }
+
+    @TypeConverter
+    fun toNotificationType(value: String): NotificationType {
+        return try {
+            NotificationType.valueOf(value)
+        } catch (e: IllegalArgumentException) {
+            NotificationType.SYSTEM
+        }
     }
 }

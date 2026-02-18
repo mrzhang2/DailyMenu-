@@ -5,6 +5,7 @@ import androidx.room.Room
 import com.dailymenu.data.database.AppDatabase
 import com.dailymenu.data.database.CommentDao
 import com.dailymenu.data.database.LearningProgressDao
+import com.dailymenu.data.database.NotificationDao
 import com.dailymenu.data.database.RecipeDao
 import com.dailymenu.data.database.UserDao
 import com.dailymenu.data.database.WorkDao
@@ -59,5 +60,11 @@ object DatabaseModule {
     @Singleton
     fun provideLearningProgressDao(database: AppDatabase): LearningProgressDao {
         return database.learningProgressDao()
+    }
+
+    @Provides
+    @Singleton
+    fun provideNotificationDao(database: AppDatabase): NotificationDao {
+        return database.notificationDao()
     }
 }
