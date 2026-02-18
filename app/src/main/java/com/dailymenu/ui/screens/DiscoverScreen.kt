@@ -94,6 +94,7 @@ fun DiscoverScreen(
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun CategoryChips(
     selectedCategory: RecipeCategory?,
@@ -135,12 +136,7 @@ private fun CategoryChips(
                     selectedLabelColor = SurfaceWhite,
                     containerColor = SurfaceWhite,
                     labelColor = TextPrimary
-                ),
-                border = if (selectedCategory == category) {
-                    androidx.compose.foundation.BorderStroke(1.dp, PrimaryOrange)
-                } else {
-                    androidx.compose.foundation.BorderStroke(1.dp, WarmBrown.copy(alpha = 0.3f))
-                }
+                )
             )
         }
     }

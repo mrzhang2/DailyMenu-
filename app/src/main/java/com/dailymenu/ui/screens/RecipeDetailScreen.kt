@@ -239,7 +239,7 @@ private fun RecipeDetailContent(
             Spacer(modifier = Modifier.height(24.dp))
 
             // 评论区
-            SectionTitle("评论 ($reviewCount)")
+            SectionTitle("评论 (${comments.size})")
             Card(
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(12.dp),
