@@ -104,6 +104,24 @@ class AuthRepository @Inject constructor(
         }
     }
 
+    suspend fun mockLogin(): Result<User> {
+        return try {
+            val mockUser = createMockUser("demo_${System.currentTimeMillis()}")
+            
+            // 保存用户信息到数据库
+            userDao.insertUser(mockUser)
+            
+            // 保存登录 token
+            dataStore.edit { preferences ->
+                preferences[AUTH_TOKEN_KEY] = "mock_token_${System.currentTimeMillis()}"
+            }
+            
+            Result.success(mockUser)
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
     suspend fun logout() {
         // 清除 token
         dataStore.edit { preferences ->

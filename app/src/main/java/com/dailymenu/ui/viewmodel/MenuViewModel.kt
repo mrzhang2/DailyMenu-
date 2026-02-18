@@ -437,7 +437,7 @@ class MenuViewModel(application: Application) : AndroidViewModel(application) {
             cookingTime = 15,
             calories = 280,
             cost = 8f,
-            imageUrl = "https://example.com/tomato-egg.jpg",
+            imageUrl = "https://picsum.photos/seed/tomato-egg/400/300",
             isHot = true,
             isCold = false,
             isRainy = false,
@@ -445,9 +445,9 @@ class MenuViewModel(application: Application) : AndroidViewModel(application) {
             season = Season.ALL_YEAR,
             tags = listOf("家常菜", "快手菜", "素食"),
             stepImages = listOf(
-                "https://example.com/tomato-step1.jpg",
-                "https://example.com/tomato-step2.jpg",
-                "https://example.com/tomato-step4.jpg"
+                "https://picsum.photos/seed/tomato-step1/400/300",
+                "https://picsum.photos/seed/tomato-step2/400/300",
+                "https://picsum.photos/seed/tomato-step4/400/300"
             ),
             tips = "选择熟透的番茄|加糖中和酸味|出锅前尝咸淡",
             difficulty = DifficultyLevel.EASY,
@@ -477,7 +477,7 @@ class MenuViewModel(application: Application) : AndroidViewModel(application) {
             cookingTime = 25,
             calories = 450,
             cost = 25f,
-            imageUrl = "https://example.com/cola-wings.jpg",
+            imageUrl = "https://picsum.photos/seed/cola-wings/400/300",
             isHot = true,
             isCold = true,
             isRainy = true,
@@ -485,9 +485,9 @@ class MenuViewModel(application: Application) : AndroidViewModel(application) {
             season = Season.ALL_YEAR,
             tags = listOf("家常菜", "下饭菜", "肉类"),
             stepImages = listOf(
-                "https://example.com/wings-step1.jpg",
-                "https://example.com/wings-step2.jpg",
-                "https://example.com/wings-step4.jpg"
+                "https://picsum.photos/seed/wings-step1/400/300",
+                "https://picsum.photos/seed/wings-step2/400/300",
+                "https://picsum.photos/seed/wings-step4/400/300"
             ),
             tips = "鸡翅划刀更入味|可乐用量没过鸡翅一半即可|收汁时注意火候别糊锅",
             difficulty = DifficultyLevel.MEDIUM,
@@ -518,7 +518,7 @@ class MenuViewModel(application: Application) : AndroidViewModel(application) {
             cookingTime = 45,
             calories = 320,
             cost = 10f,
-            imageUrl = "https://example.com/pork-congee.jpg",
+            imageUrl = "https://picsum.photos/seed/pork-congee/400/300",
             isHot = true,
             isCold = false,
             isRainy = true,
@@ -526,9 +526,9 @@ class MenuViewModel(application: Application) : AndroidViewModel(application) {
             season = Season.ALL_YEAR,
             tags = listOf("早餐", "暖胃", "营养"),
             stepImages = listOf(
-                "https://example.com/congee-step1.jpg",
-                "https://example.com/congee-step3.jpg",
-                "https://example.com/congee-step5.jpg"
+                "https://picsum.photos/seed/congee-step1/400/300",
+                "https://picsum.photos/seed/congee-step3/400/300",
+                "https://picsum.photos/seed/congee-step5/400/300"
             ),
             tips = "大米提前浸泡煮出来更绵密|肉丝变色即可不要煮老|出锅前尝味道调整咸淡",
             difficulty = DifficultyLevel.EASY,

@@ -59,6 +59,19 @@ class AuthViewModel @Inject constructor(
         }
     }
 
+    fun mockLoginSuccess() {
+        viewModelScope.launch {
+            _loginState.value = LoginState.Loading
+            authRepository.mockLogin()
+                .onSuccess { user ->
+                    _loginState.value = LoginState.Success(user)
+                }
+                .onFailure { error ->
+                    _loginState.value = LoginState.Error(error.message ?: "登录失败")
+                }
+        }
+    }
+
     fun resetLoginState() {
         _loginState.value = LoginState.Idle
     }

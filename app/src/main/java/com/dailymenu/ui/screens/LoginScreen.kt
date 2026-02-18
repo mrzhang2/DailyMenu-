@@ -159,6 +159,27 @@ fun LoginScreen(
 
                 Spacer(modifier = Modifier.height(16.dp))
 
+                // Demo Mode Button (快速体验)
+                OutlinedButton(
+                    onClick = { 
+                        // 模拟登录成功
+                        viewModel.mockLoginSuccess()
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(52.dp),
+                    shape = RoundedCornerShape(26.dp),
+                    enabled = loginState != LoginState.Loading
+                ) {
+                    Text(
+                        text = "快速体验（演示模式）",
+                        fontSize = 16.sp,
+                        color = MaterialTheme.colorScheme.primary
+                    )
+                }
+
+                Spacer(modifier = Modifier.height(16.dp))
+
                 // Guest Mode Button
                 OutlinedButton(
                     onClick = onGuestMode,
