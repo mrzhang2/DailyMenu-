@@ -2,7 +2,7 @@
 <resources>
     <!-- 微信开放平台 AppID -->
     <!-- 注意：使用前请替换为实际的微信 AppID -->
-    <string name="wechat_app_id" translatable="false">YOUR_WECHAT_APP_ID</string>
+    <string name="wechat_app_id" translatable="false">wxab2cb9cdac95d5a8</string>
     
     <!-- 微信开放平台 AppSecret -->
     <!-- 注意：使用前请替换为实际的微信 AppSecret -->
